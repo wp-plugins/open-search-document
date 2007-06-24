@@ -2,7 +2,7 @@
 /*
 Plugin Name: OSD Maker
 Plugin URI: http://www.john-noone.com
-Description: Create an Open Search Document for your blog
+Description: Create an Open Search Document for your blog.
 Version: 0.1
 Author: XBA
 Author URI: http://www.john-noone.com
