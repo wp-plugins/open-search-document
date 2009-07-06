@@ -1,5 +1,5 @@
 === Open Search Document ===
-Contributors: Matthias Pfeffele, johnnoone
+Contributors: pfefferle, johnnoone
 Donate link:
 Tags: open search document, osd, search, browser, interface
 Requires at least: 2.1
