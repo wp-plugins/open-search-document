@@ -38,6 +38,9 @@ if (isset($wp_version)) {
   add_action('atom_ns', array('OpenSearchDocument', 'atom_namespace'));
   add_action('atom_head', array('OpenSearchDocument', 'display_in_atom_header'));
   add_action('rss2_head', array('OpenSearchDocument', 'display_in_rss_header'));
+  
+  // add profile-uris
+  add_action('profile_uri', array('OpenSearchDocument', 'wpframework_profile_uri'));
 }
 
 /**
@@ -97,8 +100,16 @@ class OpenSearchDocument {
    *
    */
   function execute_request() {
-    global $wp;
+    global $wp, $wp_rewrite;
+    
     if( $wp->query_vars['opensearch'] ) {
+      if ($wp_rewrite->using_permalinks()) {
+        $joiner = "?";
+      } else {
+        $joiner = "&amp;";
+      }
+    
+    
       header('Content-Type: application/opensearchdescription+xml');
       header('Encoding:utf-8');
       echo '<?xml version="1.0" encoding="UTF-8"?>';
@@ -111,19 +122,17 @@ class OpenSearchDocument {
       template="<?php bloginfo('url'); ?>/?s={searchTerms}"></Url>
     <Url
       type="application/atom+xml"
-      template="<?php bloginfo('atom_url'); ?>?s={searchTerms}" />
+      template="<?php bloginfo('atom_url'); ?><?php echo $joiner ?>s={searchTerms}" />
     <Url
       type="application/rss+xml"
-      template="<?php bloginfo('rss2_url'); ?>?s={searchTerms}" />
+      template="<?php bloginfo('rss2_url'); ?><?php echo $joiner ?>s={searchTerms}" />
     <Contact><?php bloginfo('admin_email'); ?></Contact>
-    <LongName>Search through<?php bloginfo('name'); ?></LongName>
+    <LongName>Search through <?php bloginfo('name'); ?></LongName>
     <Tags>wordpress blog</Tags>
     <Image height="16" width="16" type="image/x-icon"><?php bloginfo('url'); ?>/favicon.ico</Image>
     <Image height="16" width="16" type="image/vnd.microsoft.icon"><?php bloginfo('url'); ?>/favicon.ico</Image>
-    <Query role="example"
-      searchTerms="blog" />
+    <Query role="example" searchTerms="blog" />
     <Developer>XSD, Matthias Pfefferle</Developer>
-    <Attribution>Search data copyright 2009, <?php bloginfo('name'); ?>, Some Rights Reserved. CC by-nc 2.5.</Attribution>
     <Language><?php bloginfo('language'); ?></Language>
     <OutputEncoding>UTF-8</OutputEncoding>
     <InputEncoding><?php bloginfo('charset'); ?></InputEncoding>
@@ -165,27 +174,19 @@ class OpenSearchDocument {
   /**
    *
    */
-  function head_profile($profiles) {
-    $profiles[] = 'http://a9.com/-/spec/opensearch/1.1/';
-    return $profiles;
-  }
-
-  /**
-   *
-   */
   function atom_namespace() {
-    echo "\n".' xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/"'."\n";
+    echo ' xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" '."\n";
   }
 
   /**
    *
    */
   function rss_namespace() {
-    echo "\n".' xmlns:atom="http://www.w3.org/2005/Atom"'."\n";
+    echo ' xmlns:atom="http://www.w3.org/2005/Atom" '."\n";
   }
 
   /**
-   * Contribute the Search to XRDS-Simple.
+   * Contribute the OpenSearch to XRDS-Simple.
    *
    * @param array $xrds current XRDS-Simple array
    * @return array updated XRDS-Simple array
@@ -199,6 +200,14 @@ class OpenSearchDocument {
       )
     );
     return $xrds;
+  }
+  
+  /**
+   *
+   */
+  function wpframework_profile_uri($profiles) {
+    $profiles[] = 'http://a9.com/-/spec/opensearch/1.1/';
+    return $profiles;
   }
 }
 ?>
