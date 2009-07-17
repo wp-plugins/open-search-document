@@ -4,7 +4,7 @@ Donate link:
 Tags: open search document, osd, search, browser, interface, open search, xrds, xrds simple, rss, atom
 Requires at least: 2.1
 Tested up to: 2.8.1
-Stable tag: 1.1
+Stable tag: 1.1.1
 
 Create an Open Search Document for your blog.
 

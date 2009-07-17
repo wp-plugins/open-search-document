@@ -3,7 +3,7 @@
  Plugin Name: Open Search Document Maker
  Plugin URI: http://wordpress.org/extend/plugins/open-search-document/
  Description: Create an Open Search Document for your blog.
- Version: 1.1
+ Version: 1.1.1
  Author: XBA, Matthias Pfefferle
  Author URI: http://wordpress.org/extend/plugins/open-search-document/
  */
@@ -38,9 +38,9 @@ if (isset($wp_version)) {
   add_action('atom_ns', array('OpenSearchDocument', 'atom_namespace'));
   add_action('atom_head', array('OpenSearchDocument', 'display_in_atom_header'));
   add_action('rss2_head', array('OpenSearchDocument', 'display_in_rss_header'));
-  
+
   // add profile-uris
-  add_action('profile_uri', array('OpenSearchDocument', 'wpframework_profile_uri'));
+  add_filter('profile_uri', array('OpenSearchDocument', 'wpframework_profile_uri'));
 }
 
 /**
@@ -52,7 +52,10 @@ if (isset($wp_version)) {
 class OpenSearchDocument {
 
   /**
+   * add open-search query var
    *
+   * @param array $vars query vars
+   * @return array updated query vars
    */
   function add_query_vars( $vars ) {
     $vars[] = 'opensearch';
@@ -60,7 +63,9 @@ class OpenSearchDocument {
   }
 
   /**
+   * add some open-search rewrite rules
    *
+   * @param array $wp_rewrite array of rewrite rules
    */
   function rewrite_add_rule( $wp_rewrite ) {
     global $wp_rewrite;
@@ -96,20 +101,20 @@ class OpenSearchDocument {
   }
 
   /**
-   *
+   * function to render the open-search document
    *
    */
   function execute_request() {
     global $wp, $wp_rewrite;
-    
+
     if( $wp->query_vars['opensearch'] ) {
       if ($wp_rewrite->using_permalinks()) {
         $joiner = "?";
       } else {
         $joiner = "&amp;";
       }
-    
-    
+
+
       header('Content-Type: application/opensearchdescription+xml');
       header('Encoding:utf-8');
       echo '<?xml version="1.0" encoding="UTF-8"?>';
@@ -144,7 +149,7 @@ class OpenSearchDocument {
   }
 
   /**
-   *
+   * contribute the open-search autodiscovery-header
    *
    */
   function display_in_header() {
@@ -152,6 +157,7 @@ class OpenSearchDocument {
   }
 
   /**
+   * contribute the open-search atom-autodiscovery header
    *
    */
   function display_in_atom_header() {
@@ -162,6 +168,7 @@ class OpenSearchDocument {
   }
 
   /**
+   * contribute the open-search rss-autodiscovery header
    *
    */
   function display_in_rss_header() {
@@ -172,6 +179,7 @@ class OpenSearchDocument {
   }
 
   /**
+   * Contribute the open-search atom-namespace
    *
    */
   function atom_namespace() {
@@ -179,6 +187,7 @@ class OpenSearchDocument {
   }
 
   /**
+   * Contribute the open-search rss-namespace
    *
    */
   function rss_namespace() {
@@ -186,7 +195,7 @@ class OpenSearchDocument {
   }
 
   /**
-   * Contribute the OpenSearch to XRDS-Simple.
+   * contribute the OpenSearch to XRDS-Simple.
    *
    * @param array $xrds current XRDS-Simple array
    * @return array updated XRDS-Simple array
@@ -201,12 +210,13 @@ class OpenSearchDocument {
     );
     return $xrds;
   }
-  
+
   /**
+   * contribute the open-search profile uri
    *
    */
   function wpframework_profile_uri($profiles) {
-    $profiles[] = 'http://a9.com/-/spec/opensearch/1.1/';
+    $profiles[] = ' http://a9.com/-/spec/opensearch/1.1/ ';
     return $profiles;
   }
 }
