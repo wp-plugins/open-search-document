@@ -3,7 +3,7 @@
  Plugin Name: Open Search Document Maker
  Plugin URI: http://wordpress.org/extend/plugins/open-search-document/
  Description: Create an Open Search Document for your blog.
- Version: 1.1.1
+ Version: 1.2
  Author: XBA, Matthias Pfefferle
  Author URI: http://wordpress.org/extend/plugins/open-search-document/
  */
@@ -59,6 +59,7 @@ class OpenSearchDocument {
    */
   function add_query_vars( $vars ) {
     $vars[] = 'opensearch';
+    $vars[] = 'opensearch-suggestions';
     return $vars;
   }
 
@@ -101,23 +102,48 @@ class OpenSearchDocument {
   }
 
   /**
-   * function to render the open-search document
+   * 
    *
    */
   function execute_request() {
-    global $wp, $wp_rewrite;
+    global $wp;
 
     if( $wp->query_vars['opensearch'] ) {
-      if ($wp_rewrite->using_permalinks()) {
-        $joiner = "?";
-      } else {
-        $joiner = "&amp;";
+      OpenSearchDocument::print_xml();
+    } else if ( $wp->query_vars['opensearch-suggestions'] ) {
+      $tags = array();
+      $output = array();
+      foreach (get_tags('search='.$wp->query_vars['opensearch-suggestions']) as $tag) {
+        $tags[] = $tag->name;
       }
+      
+      $output[] = $wp->query_vars['opensearch-suggestions'];
+      $output[] = $tags;
+      
+      header('Content-Type: application/json; charset=' . get_option('blog_charset'), true);
+      echo json_encode($output);
+      exit;
+    } else {
+      return;
+    }
+  }
+  
+  /**
+   * function to render the open-search document
+   *
+   */
+  function print_xml() {
+    global $wp_rewrite;
+    
+    if ($wp_rewrite->using_permalinks()) {
+      $joiner = "?";
+    } else {
+      $joiner = "&amp;";
+    }
 
-
-      header('Content-Type: application/opensearchdescription+xml');
-      header('Encoding:utf-8');
-      echo '<?xml version="1.0" encoding="UTF-8"?>';
+    header('Content-Type: application/opensearchdescription+xml');
+    header('Encoding:utf-8');
+    echo '<?xml version="1.0" encoding="UTF-8"?>';
   ?>
   <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
     <ShortName><?php bloginfo('name'); ?></ShortName>
@@ -131,6 +157,9 @@ class OpenSearchDocument {
     <Url
       type="application/rss+xml"
       template="<?php bloginfo('rss2_url'); ?><?php echo $joiner ?>s={searchTerms}" />
+    <Url
+      type="application/x-suggestions+json"
+      template="<?php bloginfo('url'); ?>/?opensearch-suggestions={searchTerms}"/>
     <Contact><?php bloginfo('admin_email'); ?></Contact>
     <LongName>Search through <?php bloginfo('name'); ?></LongName>
     <Tags>wordpress blog</Tags>
@@ -143,9 +172,7 @@ class OpenSearchDocument {
     <InputEncoding><?php bloginfo('charset'); ?></InputEncoding>
   </OpenSearchDescription>
   <?php
-      exit;
-    }
-    else return;
+    exit;
   }
 
   /**
