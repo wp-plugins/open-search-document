@@ -16,6 +16,19 @@ The plugin supports:
 * [RSS and Atom search responses](http://www.opensearch.org/Specifications/OpenSearch/1.1#Examples_of_OpenSearch_responses)
 * [OpenSearch Suggestions extension](http://www.opensearch.org/Specifications/OpenSearch/Extensions/Suggestions/1.0)
 
+== Changelog ==
+
+= 1.2 =
+* OpenSearch Suggestions extension
+
+= 1.1 =
+* WordPress 2.8.x compatibility
+* Autodiscovery for RSS/Atom and XRDS
+* Profile-Services
+
+= 1.0 =
+* Initial release
+
 == Installation ==
 
 1. Upload `open-search-document`-folder to the `/wp-content/plugins/` directory
