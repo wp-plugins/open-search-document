@@ -8,11 +8,13 @@ Stable tag: 1.2
 
 Create an Open Search Document for your blog.
 
-The plugin supports
+The plugin supports:
 
-* Autodiscovery links in [HTML](http://www.opensearch.org/Specifications/OpenSearch/1.1#Autodiscovery_in_HTML.2FXHTML), [Atom and RSS](http://www.opensearch.org/Specifications/OpenSearch/1.1#Autodiscovery_in_RSS.2FAtom) header and [XRDS-Simple](http://wordpress.org/extend/plugins/xrds-simple/)
+* Autodiscovery links for [HTML](http://www.opensearch.org/Specifications/OpenSearch/1.1#Autodiscovery_in_HTML.2FXHTML), [Atom and RSS](http://www.opensearch.org/Specifications/OpenSearch/1.1#Autodiscovery_in_RSS.2FAtom)
+* Autodiscovery via [XRDS-Simple](http://wordpress.org/extend/plugins/xrds-simple/)
 * [wpframework](http://wpframework.com/forums/topic/microformats-profile-uris) head-uri filter
 * [RSS and Atom search responses](http://www.opensearch.org/Specifications/OpenSearch/1.1#Examples_of_OpenSearch_responses)
+* [OpenSearch Suggestions extension](http://www.opensearch.org/Specifications/OpenSearch/Extensions/Suggestions/1.0)
 
 == Installation ==
 
