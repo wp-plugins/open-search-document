@@ -3,8 +3,8 @@ Contributors: pfefferle, johnnoone
 Donate link:
 Tags: open search document, osd, search, browser, interface, open search, xrds, xrds simple, rss, atom
 Requires at least: 2.1
-Tested up to: 2.8.2
-Stable tag: 1.2
+Tested up to: 2.9.9
+Stable tag: 1.2.1
 
 Create an Open Search Document for your blog.
 
@@ -12,11 +12,15 @@ The plugin supports:
 
 * Autodiscovery links for [HTML](http://www.opensearch.org/Specifications/OpenSearch/1.1#Autodiscovery_in_HTML.2FXHTML), [Atom and RSS](http://www.opensearch.org/Specifications/OpenSearch/1.1#Autodiscovery_in_RSS.2FAtom)
 * Autodiscovery via [XRDS-Simple](http://wordpress.org/extend/plugins/xrds-simple/)
+* Autodiscovery via [host-meta](http://wordpress.org/extend/plugins/host-meta/)
 * [wpframework](http://wpframework.com/forums/topic/microformats-profile-uris) head-uri filter
 * [RSS and Atom search responses](http://www.opensearch.org/Specifications/OpenSearch/1.1#Examples_of_OpenSearch_responses)
 * [OpenSearch Suggestions extension](http://www.opensearch.org/Specifications/OpenSearch/Extensions/Suggestions/1.0)
 
 == Changelog ==
+
+= 1.2.1 =
+* Autodiscovery for host-meta
 
 = 1.2 =
 * OpenSearch Suggestions extension
