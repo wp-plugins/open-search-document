@@ -4,7 +4,7 @@ Donate link:
 Tags: open search document, osd, search, browser, interface, open search, xrds, xrds simple, rss, atom
 Requires at least: 2.1
 Tested up to: 2.9.9
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 
 Create an Open Search Document for your blog.
 
@@ -18,6 +18,9 @@ The plugin supports:
 * [OpenSearch Suggestions extension](http://www.opensearch.org/Specifications/OpenSearch/Extensions/Suggestions/1.0)
 
 == Changelog ==
+
+= 1.2.2 =
+* Added function to flush rewrite_rules
 
 = 1.2.1 =
 * Autodiscovery for host-meta

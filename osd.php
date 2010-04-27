@@ -3,7 +3,7 @@
  Plugin Name: Open Search Document Maker
  Plugin URI: http://wordpress.org/extend/plugins/open-search-document/
  Description: Create an Open Search Document for your blog.
- Version: 1.2.1
+ Version: 1.2.2
  Author: XBA, Matthias Pfefferle
  Author URI: http://wordpress.org/extend/plugins/open-search-document/
  */
@@ -34,7 +34,8 @@ if (isset($wp_version)) {
   add_filter('get_profile_uri', array('OpenSearchDocument', 'head_profile'));
   add_filter('xrds_simple', array('OpenSearchDocument', 'xrds_simple'));
   add_action('host_meta_xrd', array('OpenSearchDocument', 'add_host_meta'));
-
+  register_activation_hook(__FILE__, array('OpenSearchDocument', 'activation_hook'));
+  
   // add feed autodiscovery
   add_action('atom_ns', array('OpenSearchDocument', 'atom_namespace'));
   add_action('atom_head', array('OpenSearchDocument', 'display_in_atom_header'));
@@ -62,6 +63,14 @@ class OpenSearchDocument {
     $vars[] = 'opensearch';
     $vars[] = 'opensearch-suggestions';
     return $vars;
+  }
+  
+  /**
+   * activation hook
+   */
+  function activation_hook() {
+    global $wp_rewrite;
+    $wp_rewrite->flush_rules();
   }
 
   /**
