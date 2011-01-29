@@ -8,6 +8,10 @@ Stable tag: 1.2.2
 
 Create an Open Search Document for your blog.
 
+== description ==
+
+Create an Open Search Document for your blog.
+
 The plugin supports:
 
 * Autodiscovery links for [HTML](http://www.opensearch.org/Specifications/OpenSearch/1.1#Autodiscovery_in_HTML.2FXHTML), [Atom and RSS](http://www.opensearch.org/Specifications/OpenSearch/1.1#Autodiscovery_in_RSS.2FAtom)
