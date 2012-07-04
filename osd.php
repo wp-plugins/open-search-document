@@ -3,8 +3,8 @@
  Plugin Name: Open Search Document Maker
  Plugin URI: http://wordpress.org/extend/plugins/open-search-document/
  Description: Create an Open Search Document for your blog.
- Version: 1.2.2
- Author: XBA, Matthias Pfefferle
+ Version: 1.3
+ Author: XBA, pfefferle
  Author URI: http://wordpress.org/extend/plugins/open-search-document/
  */
 
@@ -33,7 +33,8 @@ if (isset($wp_version)) {
   add_action('wp_head', array('OpenSearchDocument', 'display_in_header'));
   add_filter('get_profile_uri', array('OpenSearchDocument', 'head_profile'));
   add_filter('xrds_simple', array('OpenSearchDocument', 'xrds_simple'));
-  add_action('host_meta_xrd', array('OpenSearchDocument', 'add_host_meta'));
+  add_filter('host_meta', array('OpenSearchDocument', 'add_xrd'));
+  add_filter('webfinger', array('OpenSearchDocument', 'add_xrd'));
   register_activation_hook(__FILE__, array('OpenSearchDocument', 'activation_hook'));
   
   // add feed autodiscovery
@@ -42,7 +43,7 @@ if (isset($wp_version)) {
   add_action('rss2_head', array('OpenSearchDocument', 'display_in_rss_header'));
 
   // add profile-uris
-  add_filter('profile_uri', array('OpenSearchDocument', 'wpframework_profile_uri'));
+  add_filter('profile_uri', array('OpenSearchDocument', 'profile_uri'));
 }
 
 /**
@@ -252,7 +253,7 @@ class OpenSearchDocument {
    * contribute the open-search profile uri
    *
    */
-  function wpframework_profile_uri($profiles) {
+  function profile_uri($profiles) {
     $profiles[] = ' http://a9.com/-/spec/opensearch/1.1/ ';
     return $profiles;
   }
@@ -260,9 +261,10 @@ class OpenSearchDocument {
   /**
    * add the host meta information
    */
-  function add_host_meta() {     
-    echo "<Link rel='http://a9.com/-/spec/opensearch/1.1/' type='application/opensearchdescription+xml'
-              href='".OpenSearchDocument::get_url()."' />";
+  function add_xrd($array) {     
+    $array["links"][] = array("rel" => "http://a9.com/-/spec/opensearch/1.1/", "href" => OpenSearchDocument::get_url(), "type" => "application/opensearchdescription+xml");
+
+    return $array;
   }
 }
 ?>
